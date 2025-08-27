@@ -5,6 +5,8 @@
 conda env create --file=requirements-gdal_3_10.yml
 conda activate gdal_test_env_3_10
 
+## Test Fixed Levels 1,2,3
+
 ### Test with python file
 python test_gdal_3x3.py
 --> Two polygons
@@ -22,6 +24,8 @@ gdal_contour -fl 1 -fl 2 -fl 3 -p test_raster_3x3.tif test_3_10.geojson
 conda env create --file=requirements-gdal_3_11.yml
 conda activate gdal_test_env_3_11
 
+## Test Fixed Levels 1,2,3
+
 ### Test with python file
 python test_gdal_3x3.py
 --> Only one polygon
@@ -32,3 +36,9 @@ gdal_contour -fl 1 -fl 2 -fl 3 test_raster_3x3.tif test_3_11.json
 --> 3 geometries
 gdal_contour -fl 1 -fl 2 -fl 3 -p test_raster_3x3.tif test_3_11.geojson
 --> 2 geometries
+
+## Test with levels min,2,max
+
+python test_gdal_3x3_min_max.py
+
+-> works as expected on 3.11
