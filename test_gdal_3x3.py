@@ -7,20 +7,11 @@ from osgeo.gdal import Driver
 from osgeo.ogr import Feature, FieldDefn, Layer, OFTInteger, wkbPolygon
 
 
-def test_contours_3x3_example():
+def test_contours_3x3_example(contourEdges):
     ###
     output_path = pathlib.Path(__file__).parent.joinpath(r"test_raster_3x3.tif")
     output_path_str = str(output_path)
-    # contourEdges = [
-    #     "MIN",
-    #     2,
-    #     "MAX",
-    # ]
-    contourEdges = [
-        1,
-        2,
-        3,
-    ]
+
     # Open raster file
     ds = gdal.Open(output_path_str, 0)
     assert isinstance(ds, gdal.Dataset)
@@ -43,7 +34,8 @@ def test_contours_3x3_example():
     opt = "FIXED_LEVELS="
     for edge in contourEdges:
         opt += str(edge) + ","
-    args.append(opt[:-2])
+    args.append(opt[:-1])
+    print("Args: ", args)
     # Determine contours
     result = gdal.ContourGenerateEx(band, layer, options=args)
     layer.CommitTransaction()
@@ -65,10 +57,25 @@ def test_contours_3x3_example():
             AssertionError(
                 " The length of the data frame was "
                 + str(len(countour_data_frame))
-                + " even though 324 was expected"
+                + " even though 2 was expected"
             )
         )
 
 
 if __name__ == "__main__":
-    pass
+    # contourEdges = [
+    #     "min",
+    #     2,
+    #     "max",
+    # ]
+    # contourEdges = [
+    #     "MIN",
+    #     2,
+    #     "MAX",
+    # ]
+    contourEdges = [
+        1,
+        2,
+        3,
+    ]
+    test_contours_3x3_example(contourEdges=contourEdges)
